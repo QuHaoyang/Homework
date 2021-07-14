@@ -22,6 +22,7 @@ public class Ch3Ex1Activity extends AppCompatActivity {
         animationView = findViewById(R.id.animation_view);
         loopCheckBox = findViewById(R.id.loop_checkbox);
         seekBar = findViewById(R.id.seekbar);
+        seekBar.setEnabled(false);
 
         loopCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
