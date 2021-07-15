@@ -43,6 +43,7 @@ public class ClockView extends View {
     private Paint unitPaint = new Paint();
     private Paint needlePaint = new Paint();
     private Paint numberPaint = new Paint();
+    private Paint cyclePaint = new Paint();
 
 
     private Handler handler = new Handler(){
@@ -93,6 +94,13 @@ public class ClockView extends View {
         numberPaint.setAlpha(HIGHLIGHT_UNIT_ALPHA);
         numberPaint.setTextSize(50);
         numberPaint.setTextAlign(Paint.Align.CENTER);
+
+        cyclePaint.setAntiAlias(true);
+        cyclePaint.setColor(Color.BLUE);
+        cyclePaint.setStrokeCap(Paint.Cap.ROUND);
+        cyclePaint.setStrokeWidth(15-HOUR_NEEDLE_WIDTH/2f);
+        cyclePaint.setStyle(Paint.Style.STROKE);
+        cyclePaint.setAlpha(HIGHLIGHT_UNIT_ALPHA);
     }
 
     @Override
@@ -127,11 +135,16 @@ public class ClockView extends View {
         drawUnit(canvas);
         drawTimeNumbers(canvas);
         drawTimeNeedles(canvas);
-        handler.sendEmptyMessageDelayed(1,1000);
+        drawCycle(canvas);
         // TODO 实现时间的转动，每一秒刷新一次
+        handler.sendEmptyMessageDelayed(1,1000);
     }
 
     // 绘制表盘上的刻度
+    private void drawCycle(Canvas canvas){
+        canvas.drawCircle(centerX,centerY,10,cyclePaint);
+    }
+
     private void drawUnit(Canvas canvas) {
         for (int i = 0; i < unitLinePositions.size(); i++) {
             if (i % 5 == 0) {
