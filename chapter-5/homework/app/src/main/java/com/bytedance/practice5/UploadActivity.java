@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bytedance.practice5.model.Message;
 import com.bytedance.practice5.model.MessageListResponse;
 import com.bytedance.practice5.model.UploadResponse;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -58,6 +59,20 @@ public class UploadActivity extends AppCompatActivity {
     private SimpleDraweeView coverSD;
     private EditText toEditText;
     private EditText contentEditText ;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg){
+            super.handleMessage(msg);
+            if(msg.what == 1){
+                Toast.makeText(UploadActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Toast.makeText(UploadActivity.this,"提交失败",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -268,16 +283,19 @@ public class UploadActivity extends AppCompatActivity {
                     Log.d("post", "run: "+result);
 
                     if(conn.getResponseCode() == 200){
+                        handler.sendEmptyMessage(1);
 //                        Toast.makeText(UploadActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
-                        finish();
+//                        finish();
                     }
                     else{
+                        handler.sendEmptyMessage(2);
 //                        Toast.makeText(UploadActivity.this,"提交失败",Toast.LENGTH_SHORT).show();
 //                Toast.makeText(this,"获取失败",Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch (Exception e){
                     e.printStackTrace();
+                    handler.sendEmptyMessage(2);
 //            Toast.makeText(this,"网络异常"+e.toString(),Toast.LENGTH_SHORT).show();
                 }
             }
