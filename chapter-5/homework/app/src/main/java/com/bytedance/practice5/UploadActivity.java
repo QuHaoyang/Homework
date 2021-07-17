@@ -78,8 +78,8 @@ public class UploadActivity extends AppCompatActivity {
         findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                submitMessageWithURLConnection();
-                submit();
+                submitMessageWithURLConnection();
+//                submit();
             }
         });
     }
@@ -191,10 +191,8 @@ public class UploadActivity extends AppCompatActivity {
     // TODO 7 选做 用URLConnection的方式实现提交
 
     private void submitMessageWithURLConnection(){
-        //做了挺长时间的但没做出来
-        //图片没有想到应该怎么样打包上传
-        //里面的其它属性写法正不正确没有机会测试
-        //时间不太够把这个写出来了就把半成品先放在这里
+        //这一版可以用了
+        //虽然迟了一天不过最后能把这个写出来还是非常高兴的
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -228,7 +226,7 @@ public class UploadActivity extends AppCompatActivity {
                     conn.setConnectTimeout(6000);
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("token","WkpVLWJ5dGVkYW5jZS1hbmRyb2lk");
-                    conn.setRequestProperty("Content-Type","multipart_form_data;boundary="+boundary);
+                    conn.setRequestProperty("Content-Type","multipart/form-data; boundary="+boundary);
 
                     byte[] end_data = ("\r\n--"+boundary+"--\r\n").getBytes();
 
@@ -236,28 +234,38 @@ public class UploadActivity extends AppCompatActivity {
                     conn.setDoInput(true);
                     conn.setUseCaches(false);
 
-//                    JSONObject json = new JSONObject();
-//                    json.put("from","瞿皓阳");
-//                    json.put("to",to);
-//                    json.put("content",content);
-//                    OutputStream os = conn.getOutputStream();
-//
-//                    PrintWriter output = new PrintWriter(conn.getOutputStream());
-//                    output.print(json);
-//
-//                    output.flush();
-//                    output.close();
                     OutputStream os = conn.getOutputStream();
-                    String data = "from=\"瞿皓阳\"&to="+to+"&content="+content;
+                    os.write((end+boundary+end).getBytes("UTF-8"));
+                    String data = twoHyphens + boundary + end;
+                    data = data + "Content-Disposition: form-data; name=\"from\""+ end + end;
+                    data = data + "瞿皓阳" + end;
+//                    os.write(data.getBytes("UTF-8"));
+                    data += twoHyphens + boundary +end;
+                    data += "Content-Disposition: form-data; name=\"to\""+end + end;
+                    data += to + end;
+//                    os.write(data.getBytes("UTF-8"));
+                    data += twoHyphens + boundary +end;
+                    data += "Content-Disposition: form-data; name=\"content\""+end + end;
+                    data += content + end;
+                    data += twoHyphens + boundary +end;
+//                    os.write(data.getBytes("UTF-8"));
+
+                    data += "Content-Disposition: form-data; name=\"image\"; filename=\"cover.png\""+end;
+                    data += "Content-Type: image/png"+end+end;
+//                    StringBuffer sb = new StringBuffer();
+//                    sb.append("Content-Disposition: form-data; name=\"image\"; filename=\"cover.png\""+end);
+//                    sb.append("Content-Type: image/png"+end+end);
+//                    os.write(data.getBytes("UTF-8"));
                     os.write(data.getBytes("UTF-8"));
-                    StringBuffer sb = new StringBuffer();
-                    sb.append(twoHyphens+boundary+end);
-                    sb.append("Content-Disposition: form-data; name=\"image\"; filename=\"cover.png\""+end);
-                    sb.append("Content-Type: application/octet-stream; charset=UTF-8"+end);
-                    os.write(sb.toString().getBytes("UTF-8"));
                     os.write(coverImageData);
+                    os.write((end+twoHyphens+boundary+twoHyphens+end).getBytes("UTF-8"));
                     os.flush();
                     os.close();
+
+                    InputStream in = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+                    UploadResponse result = new Gson().fromJson(reader,new TypeToken<UploadResponse>(){}.getType());
+                    Log.d("post", "run: "+result);
 
                     if(conn.getResponseCode() == 200){
 //                        Toast.makeText(UploadActivity.this,"提交成功",Toast.LENGTH_SHORT).show();
