@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.chapter_7">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,15 +16,11 @@
         android:theme="@style/Theme.Chapter7">
         <activity android:name=".VideoActivity"
             android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
+            <intent-filter
+                tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.SEND"/>
-                <action android:name="ACTION_VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.APP_FILES" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="uri"/>
-                <data android:mimeType="video/mp4"/>
+                <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
 
