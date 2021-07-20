@@ -64,7 +64,7 @@ public class PictureActivity extends AppCompatActivity {
         });
 
         btnFade.setOnClickListener( v -> {
-            DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
+            DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(1000).setCrossFadeEnabled(true).build();
             Glide.with(this).load(mockUrl)
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.error)
