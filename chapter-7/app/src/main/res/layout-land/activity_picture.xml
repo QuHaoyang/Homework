@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PictureActivity">
+
+    <ImageView
+        android:id="@+id/testPicture"
+        android:layout_width="117dp"
+        android:layout_height="118dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/btn_load_success"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_load_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:text="加载有效url"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/btn_load_fail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="加载无效url"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_load_success"
+        />
+
+    <Button
+        android:id="@+id/btn_rounded_corners"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="加载圆角图片"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_load_fail"
+        />
+    <Button
+        android:id="@+id/btn_rounded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="加载圆形图片"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_rounded_corners"
+        />
+    <Button
+        android:id="@+id/btn_fade"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="加载淡入图片"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/btn_rounded"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

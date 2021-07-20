@@ -1,0 +1,2 @@
+rootProject.name = "Chapter-7"
+include ':app'
