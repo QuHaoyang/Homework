@@ -26,6 +26,7 @@ public class VideoActivity extends Activity {
     private VideoView videoView;
     private static int oldTime = 0;
     private static String oldUrl = "";
+    private String currentUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,13 @@ public class VideoActivity extends Activity {
             Uri uri = intent.getData();
             String str = Uri.decode(uri.getEncodedPath());
             videoView.setVideoURI(Uri.parse(str));
+            currentUrl = uri.toString();
         }
         else{
             videoView.setVideoURI(Uri.parse(mockUrl));
+            currentUrl = mockUrl;
         }
+
 
 
 //        videoView.setMediaController(new MediaController(this));
@@ -69,7 +73,9 @@ public class VideoActivity extends Activity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 videoView.setMediaController(new MediaController(VideoActivity.this));
-                videoView.seekTo(oldTime);
+                if(currentUrl == oldUrl){
+                    videoView.seekTo(oldTime);
+                }
                 videoView.start();
             }
         });
@@ -81,7 +87,8 @@ public class VideoActivity extends Activity {
             @Override
             public void onClick(View v) {
                 currentTime = System.currentTimeMillis();
-                Log.d("tag123123",currentTime+" , "+lastClick);
+                oldTime = videoView.getCurrentPosition();
+                Log.d("tag123123",currentTime+" , "+lastClick+" , "+oldTime);
                 if(currentTime - lastClick < timeBound){
                     if(videoView.isPlaying()){
                         videoView.pause();
@@ -97,11 +104,36 @@ public class VideoActivity extends Activity {
     }
 
     @Override
-    protected void onDestroy() {
-        videoView.pause();
+    protected void onPause(){
         oldTime = videoView.getCurrentPosition();
+        Log.d("tag123123"," , "+oldTime);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        oldUrl = currentUrl;
         super.onDestroy();
-        Log.d("111111", "onDestroy: ");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        Configuration mConfiguration = this.getResources().getConfiguration();
+        int ori = mConfiguration.orientation;
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {
+            setTheme(android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+//            //横
+        }
+        else if (ori == Configuration.ORIENTATION_PORTRAIT) {
+            setTheme(android.R.style.Theme_Black);
+//            //竖
+        }
+        super.onConfigurationChanged(newConfig);
     }
 
 

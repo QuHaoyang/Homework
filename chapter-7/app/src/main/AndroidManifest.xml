@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.APP_FILES" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="uri"/>
-                <data android:mimeType="*/*"/>
+                <data android:mimeType="video/mp4"/>
             </intent-filter>
         </activity>
 
