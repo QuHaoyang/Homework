@@ -169,7 +169,7 @@ public class SystemRecordActivity extends AppCompatActivity {
 //        ContentValues localContentValues = new ContentValues();
 //        localContentValues.put("title", paramFile.getName());
 //        localContentValues.put("_display_name", paramFile.getName());
-//        localContentValues.put("mime_type", "video/3gp");
+//        localContentValues.put("mime_type", "video/mp4");
 //        localContentValues.put("datetaken", Long.valueOf(paramLong));
 //        localContentValues.put("date_modified", Long.valueOf(paramLong));
 //        localContentValues.put("date_added", Long.valueOf(paramLong));
