@@ -25,7 +25,8 @@ public class VideoActivity extends Activity {
     private long currentTime;
     private VideoView videoView;
     private static int oldTime = 0;
-    private static String oldUrl = "";
+    private static String oldUrl = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
+//    private static String oldUrl = "content://media/external/video/media/62741";
     private String currentUrl;
 
     @Override
@@ -51,14 +52,12 @@ public class VideoActivity extends Activity {
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
-            String str = Uri.decode(uri.getEncodedPath());
-            videoView.setVideoURI(Uri.parse(str));
             currentUrl = uri.toString();
         }
         else{
-            videoView.setVideoURI(Uri.parse(mockUrl));
-            currentUrl = mockUrl;
+            currentUrl = oldUrl;
         }
+        videoView.setVideoURI(Uri.parse(currentUrl));
 
 
 
